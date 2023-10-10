@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """Minimum Operations"""
 
+
 def primeFactorization(x):
     """Returns prime factorization elements of x"""
     div = 2
@@ -13,6 +14,7 @@ def primeFactorization(x):
             div += 1
     return factors
 
+
 def minOperations(n):
     """Calculates the fewest number of operations needed
         to result in exactly n H characters in the file"""
@@ -24,4 +26,3 @@ def minOperations(n):
         total_operations += factor * count
 
     return total_operations
-
