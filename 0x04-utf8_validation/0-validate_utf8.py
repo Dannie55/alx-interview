@@ -1,27 +1,23 @@
-def validUTF8(data):
-    # Initialize a variable to keep track of the number of bytes in the current character.
-    bytes_to_follow = 0
+#!/usr/bin/python3
+"""UTF-8 Validation"""
 
-    for byte in data:
-        # Check the 8th bit to identify the start of a character.
-        if bytes_to_follow == 0:
-            if (byte >> 7) == 0b0:
-                bytes_to_follow = 0
-            elif (byte >> 5) == 0b110:
-                bytes_to_follow = 1
-            elif (byte >> 4) == 0b1110:
-                bytes_to_follow = 2
-            elif (byte >> 3) == 0b11110:
-                bytes_to_follow = 3
-            else:
+
+def validUTF8(data):
+    """method determines if given data set represents a valid UTF-8 encoding"""
+    num_bytes = 0
+    for num in data:
+        binary_rep = format(num, '#010b')[-8:]
+        if num_bytes == 0:
+            for bit in binary_rep:
+                if bit == '0':
+                    break
+                num_bytes += 1
+            if num_bytes == 0:
+                continue
+            if num_bytes == 1 or num_bytes > 4:
                 return False
         else:
-            # Check if the current byte is a continuation byte.
-            if (byte >> 6) == 0b10:
-                bytes_to_follow -= 1
-            else:
+            if not (binary_rep[0] == '1' and binary_rep[1] == '0'):
                 return False
-
-    # If all bytes have been processed correctly, and there are no extra bytes left, it's a valid UTF-8 encoding.
-    return bytes_to_follow == 0
-
+        num_bytes -= 1
+    return num_bytes == 0
